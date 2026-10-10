@@ -1,0 +1,3 @@
+using Marina.Application.Abstractions; using Marina.Persistence.Data; using Microsoft.EntityFrameworkCore;
+namespace Marina.Persistence.Security;
+public sealed class PermissionResolver(MarinaDbContext db):IPermissionResolver{public async Task<IReadOnlyCollection<string>>ForRolesAsync(IEnumerable<string>roleNames,CancellationToken ct=default){var normalized=roleNames.Select(x=>x.ToUpperInvariant()).ToArray();var roleIds=db.Roles.Where(x=>x.NormalizedName!=null&&normalized.Contains(x.NormalizedName)).Select(x=>x.Id);return await db.RolePermissions.Where(x=>roleIds.Contains(x.RoleId)).Join(db.Permissions,x=>x.PermissionId,x=>x.Id,(rp,p)=>p.Name).Distinct().ToArrayAsync(ct);}}

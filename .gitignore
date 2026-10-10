@@ -1,0 +1,32 @@
+# .NET
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+
+# Flutter and Dart
+**/.dart_tool/
+**/build/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/.pub-cache/
+
+# IDE files
+.idea/
+*.iml
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Local application settings
+**/appsettings.Development.json
+**/appsettings.Local.json
+
+# Certificates and private keys
+*.pfx
+*.pem
+*.key
