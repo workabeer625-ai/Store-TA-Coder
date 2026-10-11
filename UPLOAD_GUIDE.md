@@ -171,3 +171,76 @@ git ls-files | head -50
 - أحذف الفرع المؤقت `arena/1df9ef1c-store-ta-coder`
 - أدمج ملف `.gitignore` إذا احتجته
 - أكتب لك `README.md` احترافي يشرح المشروع (backend + frontend + Flutter) وطريقة التشغيل
+
+---
+
+## حالة خاصة: المجلد كان مستودع Git من قبل (مثل مجلد MarinaStore)
+
+إذا ظهرت لك هذه الرسائل:
+
+```
+Reinitialized existing Git repository in F:/MarinaStore/.git/
+error: remote origin already exists.
+nothing to commit, working tree clean
+Your branch is behind 'origin/main' by 1 commit
+```
+
+فمعناها: المجلد فيه `.git` قديم و`origin` قديم يشير لمستودع ثاني،
+وفيه `.gitignore` قديم يخفي ملفاتك. الحل — نظّف git بدون لمس ملفاتك:
+
+```powershell
+cd F:\MarinaStore
+
+# 1) افحص أين يشير origin القديم (للمعلومة فقط)
+git remote -v
+
+# 2) أعزل المستودع القديم — ملفاتك لا تُلمس إطلاقاً
+Rename-Item .git .git_old
+
+# 3) مستودع جديد نظيف موجّه لـ Store-TA-Coder
+git init
+git remote add origin https://github.com/workabeer625-ai/Store-TA-Coder.git
+
+# 4) استبدل أي .gitignore قديم كان يخفي ملفاتك
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/workabeer625-ai/Store-TA-Coder/arena/1df9ef1c-store-ta-coder/.gitignore" -OutFile ".gitignore"
+
+# إذا فشل الأمر السابق (لا يوجد curl/إنترنت)، استخدم هذا البديل:
+@'
+node_modules/
+build/
+dist/
+.dart_tool/
+.flutter-plugins
+.packages
+.pub-cache/
+__pycache__/
+.venv/
+venv/
+.env
+.env.*
+.DS_Store
+.idea/
+.vscode/
+*.log
+'@ | Out-File -Encoding utf8 .gitignore
+
+# 5) أضف كل شيء
+git add -A
+
+# 6) تحقّق قبل الرفع: لازم تشوف مئات/آلاف الملفات
+git diff --cached --name-only | Measure-Object -Line
+git diff --cached --name-only | Select-Object -First 30
+
+# 7) سجّل وارفع
+git commit -m "feat: upload full project (backend + frontend)"
+git branch -M main
+git push -u origin main --force
+```
+
+**تنبيه:** في خطوة 6 لازم تشوف أسماء ملفات مشروعك (backend، frontend، lib، ...).
+إذا ظهر `Count: 0` فالملفات محجوبة — شغّل `git status --ignored` وأرسل لي المخرجات.
+
+بعد نجاح الرفع وتأكدك من ظهور المجلدات على GitHub، احذف النسخة القديمة:
+```powershell
+Remove-Item .git_old -Recurse -Force
+```
