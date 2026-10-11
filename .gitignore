@@ -1,0 +1,93 @@
+# ---------- Dependencies ----------
+node_modules/
+vendor/
+bower_components/
+.pnp
+.pnp.js
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---------- Flutter / Dart ----------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.freezed.dart
+*.g.dart
+*.mocks.dart
+
+# ---------- Env & secrets ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+serviceAccountKey.json
+firebase-service-account.json
+
+# ---------- Build output ----------
+out/
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.parcel-cache/
+.turbo/
+dist-ssr/
+coverage/
+
+# ---------- Logs ----------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- Databases ----------
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+dump.rdb
+
+# ---------- Uploads / media ----------
+public/uploads/*
+!public/uploads/.gitkeep
+storage/*.key
+
+# ---------- Editors / OS ----------
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.swp
+.DS_Store
+Thumbs.db
+*.iml
+
+# ---------- Archives (لا ترفع مع المشروع) ----------
+*.zip
+*.rar
+*.7z
+*.tar.gz
